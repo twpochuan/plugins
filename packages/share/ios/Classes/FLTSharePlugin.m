@@ -53,7 +53,12 @@ static NSString *const PLATFORM_CHANNEL = @"plugins.flutter.io/share";
 - (id)activityViewController:(UIActivityViewController *)activityViewController
          itemForActivityType:(UIActivityType)activityType {
   if (!_path || !_mimeType) {
-    return _text;
+    if ([_text hasPrefix:@"http://"] || [_text hasPrefix:@"https://"]) {
+     NSURL *url = [NSURL URLWithString:_text];
+     return url;
+    } else {
+     return _text;
+    }
   }
 
   if ([_mimeType hasPrefix:@"image/"]) {
